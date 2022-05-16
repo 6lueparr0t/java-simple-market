@@ -8,10 +8,23 @@ jasypt:
     password: 6lueparr0t
 logging:
   level:
-    com.rgbplace: TRACE
+#    com.rgbplace: TRACE
+    com.rgbplace: DEBUG
 spring:
   jpa:
     open-in-view: false
+  session:
+    store-type: jdbc
+management:
+  endpoints:
+    web:
+      base-path: /app
+      path-mapping:
+        health: health-check
+      exposure:
+        exclude: env
+server:
+  port: 8080
 ---
 # local 환경
 spring:
@@ -42,8 +55,6 @@ spring:
       username: 6lueparr0t
   jwt:
     secret: ENC(qH8z10UcvCJDoQUlWa1PSHMnc+KBiqAxrZdHfXwPKao=)
-server:
-  port: 8080
 ---
 # dev 환경
 spring:
