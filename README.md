@@ -1,11 +1,11 @@
-# Java-board
+# Java Board
 
 ## 특징
 
 ## 실행
 
 - docker-compose.yml 을 먼저 실행한다.
-  - redis, mysql, adminer, java-board 이미지가 있다. 
+  - mysql, adminer, java-board 가 있다. 
 ```shell
 docker-compose -f docker-compose.yml up -d
 ```
@@ -14,7 +14,6 @@ docker-compose -f docker-compose.yml up -d
 - java 11.0.14 2022-01-18 LTS
 - JAVA Spring Boot (v2.3.12.RELEASE)
 - Gradle (v7.2)
-- Redis (v6.2.6)
 - Mysql (v8.0.28)
 
 ## 테이블 설계

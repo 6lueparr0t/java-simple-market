@@ -41,11 +41,7 @@ spring:
       jdbc-url: jdbc:h2:mem:testdb;MODE=MYSQL
       username: 6lueparr0t
   jwt:
-    secret: ENC(EEGopae3rh1QA/6zpkshRGPIhdyHR2cYkbEqsPFqqyw=)
-  redis:
-    port: 6379
-    host: localhost
-    password: ENC(NMrFQLYI3+tSgzx8zdbyx+K5sQzMC2+IIjCfL6p+WOU=)
+    secret: ENC(qH8z10UcvCJDoQUlWa1PSHMnc+KBiqAxrZdHfXwPKao=)
 server:
   port: 8080
 ---
@@ -67,10 +63,6 @@ spring:
     url: jdbc:mysql://localhost:3306/user
     driver-class-name: org.mysql.jdbc.Driver
     username: root
-    password: ENC(NMrFQLYI3+tSgzx8zdbyx+K5sQzMC2+IIjCfL6p+WOU=)
+    password: ENC(qH8z10UcvCJDoQUlWa1PSHMnc+KBiqAxrZdHfXwPKao=)
   jwt:
-    secret: ENC(EEGopae3rh1QA/6zpkshRGPIhdyHR2cYkbEqsPFqqyw=)
-  redis:
-    port: 6379
-    host: localhost
-    password: ENC(NMrFQLYI3+tSgzx8zdbyx+K5sQzMC2+IIjCfL6p+WOU=)
+    secret: ENC(qH8z10UcvCJDoQUlWa1PSHMnc+KBiqAxrZdHfXwPKao=)

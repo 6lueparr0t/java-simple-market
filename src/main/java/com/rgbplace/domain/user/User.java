@@ -20,28 +20,22 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long no;
-    @Column(unique = true, length = 100, nullable = false, name = "id")
-    private String id;
-    @Column(unique = true, length = 100, nullable = false, name = "name")
-    private String name;
-    @Column(unique = true, length = 300, nullable = false, name = "mail")
-    private String mail;
-    @Column(length = 100, nullable = false, name = "pswd")
-    private String pswd;
+    private Long id;
+    @Column(length = 200, nullable = false, name = "name")
+    private String userName;
+    @Column(unique = true, length = 100, nullable = false, name = "uid")
+    private String userId;
+    @Column(length = 400, nullable = false, name = "pw")
+    private String userPassword;
 
     @Column(name = "cdtm")
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @Column(name = "udtm")
-    @LastModifiedDate
-    private LocalDateTime updatedDate;
-
     @Builder
-    public User(String id, String name, String pswd) {
-        this.id = id;
-        this.name = name;
-        this.pswd = pswd;
+    public User(String userName, String userId, String userPassword) {
+        this.userName = userName;
+        this.userId = userId;
+        this.userPassword = userPassword;
     }
 }

@@ -19,16 +19,13 @@ import java.time.LocalDateTime;
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long no;
+    private Long id;
 
     @Column(length = 100, name = "uid")
     private String userId;
 
     @Column(length = 400)
     private String access;
-
-    @Column(length = 400)
-    private String refresh;
 
     @Convert(converter = UseCodeConverter.class)
     @Column(columnDefinition = "char", name = "use")

@@ -5,4 +5,4 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --production
 COPY project/. .
-CMD ["java", "-jar", "-Dspring.profiles.active=local kakaopaycoding-server-1.0-SNAPSHOT*.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=local java-board-1.0-SNAPSHOT*.jar"]
