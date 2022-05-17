@@ -27,15 +27,23 @@ public class User {
     private String userId;
     @Column(length = 400, nullable = false, name = "pw")
     private String userPassword;
+    @Column(length = 500, nullable = false, name = "email")
+    private String userEmail;
+    @Column(length = 400, name = "access")
+    private String accessToken;
 
     @Column(name = "cdtm")
     @CreatedDate
     private LocalDateTime createdDate;
 
+    @Column(name = "udtm")
+    @LastModifiedDate
+    private LocalDateTime updatedDate;
+
     @Builder
-    public User(String userName, String userId, String userPassword) {
+    public User(String userName, String userId, String userPassword, String userEmail) {
         this.userName = userName;
         this.userId = userId;
-        this.userPassword = userPassword;
+        this.userEmail = userEmail;
     }
 }

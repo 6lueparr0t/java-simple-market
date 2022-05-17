@@ -1,13 +1,14 @@
 package com.rgbplace.service.sign;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.rgbplace.domain.token.Token;
+import com.rgbplace.common.constant.JwtExpiration;
 import com.rgbplace.common.util.DateUtils;
 import com.rgbplace.domain.user.User;
 import com.rgbplace.service.token.TokenService;
 import com.rgbplace.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.rgbplace.domain.token.UseCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,18 +31,15 @@ public class SignServiceImpl implements SignService {
             Map<String, Object> data = new HashMap<>();
             if (createdUser != null) {
                 data.put("status", "success");
-                Token createdToken = tokenService.saveToken(new Token(user.getUserId(), NULL));
 
-                Date date = new Date(System.currentTimeMillis() + 60 * 60 * 1000);
-                String access_token = tokenService.generateToken(createdToken.getId(), user.getUserId(), request.getRequestURI(), date);
+                Date accessTime = new Date(System.currentTimeMillis() + JwtExpiration.ACCESS_TOKEN_EXPIRATION_TIME.getValue());
+                String accessToken = tokenService.generateToken(user.getUserId(), request.getRequestURI(), accessTime);
 
-                createdToken.setAccess(access_token);
-                createdToken.setUseCode(USE);
-                tokenService.updateToken(createdToken.getId(), createdToken);
+                userService.updateToken(createdUser, accessToken);
 
                 Map<String,String> token = new HashMap<>();
-                token.put("access", access_token);
-                token.put("expired", DateUtils.getDateString(date));
+                token.put("access", accessToken);
+                token.put("expired", DateUtils.getDateString(accessTime));
 
                 data.put("status", "success");
                 data.put("token", token);
@@ -64,12 +60,15 @@ public class SignServiceImpl implements SignService {
             try {
                 Map<String, Claim> claimMap = tokenService.checkToken(authorizationHeader);
 
-                Token token = tokenService.getToken(claimMap.get("Id").asLong(), claimMap.get("UserId").asString(), USE);
-                token.setUseCode(NOT);
-                tokenService.updateToken(token.getId(), token);
+                User user = userService.getUser(claimMap.get("UserId").asString());
 
-                data.put("status", "success");
-                data.put("msg", "sign out success!");
+                if (user.getAccessToken() == null) {
+                    throw new RuntimeException("It's not a valid token.");
+                } else {
+                    userService.updateToken(user, null);
+                    data.put("status", "success");
+                    data.put("msg", "sign out success!");
+                }
             } catch (Exception e) {
                 log.error("Error logging in: {}", e.getMessage());
                 data.put("status", "fail");
@@ -89,9 +88,9 @@ public class SignServiceImpl implements SignService {
             try {
                 Map<String, Claim> claimMap = tokenService.checkToken(authorizationHeader);
 
-                Token token = tokenService.getToken(claimMap.get("Id").asLong(), claimMap.get("UserId").asString(), USE);
+                User user = userService.getUser(claimMap.get("UserId").asString());
 
-                if (token == null) {
+                if (user == null) {
                     data.put("status", "fail");
                     data.put("msg", "token has not found.");
                 } else {

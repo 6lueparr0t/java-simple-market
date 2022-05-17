@@ -20,8 +20,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        log.info("Saving new user {} the database", user.getUserName());
+        log.info("Saving new user {}", user.getUserName());
         user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateToken(User user, String accessToken) {
+        log.info("Update Token user {}", user.getUserName());
+        user.setAccessToken(accessToken);
         return userRepository.save(user);
     }
 

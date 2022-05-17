@@ -1,7 +1,10 @@
 package com.rgbplace.common.constant;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum JwtExpiration {
 
     // JWT 만료 시간 / 1시간

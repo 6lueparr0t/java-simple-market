@@ -5,9 +5,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.rgbplace.domain.token.Token;
-import com.rgbplace.domain.token.TokenRepository;
-import com.rgbplace.domain.token.UseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,37 +24,14 @@ public class TokenServiceImpl implements TokenService {
     @Value("${spring.jwt.secret}")
     private String jwtSecretKey;
 
-    private final TokenRepository tokenRepository;
-
     @Override
-    public Token saveToken(Token token) {
-        return tokenRepository.save(token);
-    }
-
-    @Override
-    public Long updateToken(Long id, Token token) {
-        Token updateToken = tokenRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("Token has not found : {}"+ id));
-
-        updateToken.update(token.getUserId(), token.getAccess(), token.getUseCode());
-
-        return id;
-    }
-
-    @Override
-    public Token getToken(Long id, String userId, UseCode useCode) {
-        return tokenRepository.findByIdAndUserIdAndUseCode(id, userId, useCode);
-    }
-
-    @Override
-    public String generateToken(Long id, String userId, String requestURI, Date date) {
+    public String generateToken(String userId, String requestURI, Date date) {
         Algorithm algorithm = Algorithm.HMAC256(jwtSecretKey.getBytes());
 
         return JWT.create()
                 .withSubject(userId)
                 .withExpiresAt(date)
                 .withIssuer(requestURI)
-                .withClaim("Id", id)
                 .withClaim("UserId", userId)
                 .sign(algorithm);
     }
@@ -82,7 +56,6 @@ public class TokenServiceImpl implements TokenService {
         Map<String, Claim> claimMap = new HashMap<>();
 
         claimMap.put("UserId", decodedJWT.getClaim("UserId"));
-        claimMap.put("Id", decodedJWT.getClaim("Id"));
 
         return claimMap;
     }
