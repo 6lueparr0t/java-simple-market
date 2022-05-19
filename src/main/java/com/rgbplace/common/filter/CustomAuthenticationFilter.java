@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.rgbplace.common.constant.JwtExpiration;
 import com.rgbplace.common.util.DateUtils;
-import com.rgbplace.domain.Login;
+import com.rgbplace.dto.LoginDto;
 import com.rgbplace.service.token.TokenService;
 import com.rgbplace.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,19 +44,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
 
-        Login login = this.getLoginRequest(request);
+        LoginDto loginDto = this.getLoginRequest(request);
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(login.getUserId(), login.getUserPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUid(), loginDto.getPw());
         return authenticationManager.authenticate(authenticationToken);
     }
 
-    private Login getLoginRequest(HttpServletRequest request) {
+    private LoginDto getLoginRequest(HttpServletRequest request) {
         BufferedReader reader = null;
-        Login login = null;
+        LoginDto loginDto = null;
         try {
             reader = request.getReader();
             Gson gson = new Gson();
-            login = gson.fromJson(reader, Login.class);
+            loginDto = gson.fromJson(reader, LoginDto.class);
         } catch (IOException e) {
             log.debug("{}", e);
         } finally {
@@ -67,7 +67,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             }
         }
 
-        return login;
+        return loginDto;
     }
 
     @Override

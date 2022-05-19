@@ -8,34 +8,36 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private static final String APPLICATION_JSON_VALUE = "application/json";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public User saveUser(User user) {
-        log.info("Saving new user {}", user.getUserName());
-        user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+        log.info("Saving new user {}", user.getUid());
+        user.setPw(passwordEncoder.encode(user.getPw()));
         return userRepository.save(user);
     }
 
     @Override
     public User updateToken(User user, String accessToken) {
-        log.info("Update Token user {}", user.getUserName());
+        log.info("Update Token user {}", user.getUid());
         user.setAccessToken(accessToken);
+        user.setAccessDate(LocalDateTime.now());
         return userRepository.save(user);
     }
 
     @Override
     public User getUser(String userId) {
         log.info("Fetching user {}", userId);
-        return userRepository.findByUserId(userId);
+        return userRepository.findByUid(userId);
     }
 
     @Override
@@ -43,6 +45,6 @@ public class UserServiceImpl implements UserService {
         log.info("Fetching user {}", userId);
         log.info("Fetching pw {}", passwordEncoder.encode(userPassword));
 
-        return userRepository.findByUserIdAndUserPassword(userId, passwordEncoder.encode(userPassword));
+        return userRepository.findByUidAndPw(userId, passwordEncoder.encode(userPassword));
     }
 }

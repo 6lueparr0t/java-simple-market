@@ -66,25 +66,4 @@ public class SignController {
         }
 
     }
-
-    @GetMapping("/check")
-    public ResponseEntity<Map<String, String>> signCheckUser(HttpServletRequest request,
-                                                           HttpServletResponse response) throws IOException {
-
-        final URI uri = linkTo(methodOn(this.getClass()).signCheckUser(request, response)).toUri();
-
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-        try {
-            Map<String, String> data = signService.signCheck(authorizationHeader);
-
-            response.setContentType(APPLICATION_JSON_VALUE);
-            return ResponseEntity.created(uri).body(data);
-        } catch (Exception e) {
-            response.setHeader("error", e.getMessage());
-            response.setStatus(FORBIDDEN.value());
-
-            throw new IOException(e);
-        }
-
-    }
 }

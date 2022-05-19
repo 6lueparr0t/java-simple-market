@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .headers().frameOptions().disable()
             .and()
             .authorizeRequests()
-            .antMatchers("/sign/**", "/h2-console/**").permitAll();
+            .antMatchers("/sign/**", "/order/**", "/product/**", "/h2-console/**").permitAll();
 
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(getApplicationContext()), UsernamePasswordAuthenticationFilter.class);

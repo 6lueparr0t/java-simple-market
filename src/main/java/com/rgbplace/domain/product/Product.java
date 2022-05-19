@@ -1,6 +1,7 @@
-package com.rgbplace.domain.user;
+package com.rgbplace.domain.product;
 
 
+import com.rgbplace.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,44 +16,35 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @AllArgsConstructor @NoArgsConstructor
-@Table(name = "TBL_USER")
+@Table(name = "TBL_PRODUCT")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+@Builder(builderMethodName = "ProductBuilder")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 200, nullable = false, name = "name")
+    @Column(length = 400, nullable = false, name = "name")
     private String name;
 
-    @Column(unique = true, length = 100, nullable = false, name = "uid")
-    private String uid;
+    @Column(length = 4000, name = "desc")
+    private String desc;
 
-    @Column(length = 400, nullable = false, name = "pw")
-    private String pw;
-
-    @Column(length = 500, nullable = false, name = "email")
-    private String email;
-
-    @Column(length = 400, name = "access")
-    private String accessToken;
+    @Column(name = "price")
+    private Long price;
 
     @Column(name = "cdtm")
     @CreatedDate
     private LocalDateTime createdDate;
 
-    @Column(name = "adtm")
-    private LocalDateTime accessDate;
-
     @Column(name = "udtm")
     @LastModifiedDate
     private LocalDateTime updatedDate;
 
-    @Builder
-    public User(String name, String uid, String pw, String email) {
-        this.name = name;
-        this.uid = uid;
-        this.pw = pw;
-        this.email = email;
+    public static ProductBuilder builder(ProductDto productDto) {
+        return ProductBuilder()
+                .name(productDto.getName())
+                .desc(productDto.getDesc())
+                .price(productDto.getPrice());
     }
 }

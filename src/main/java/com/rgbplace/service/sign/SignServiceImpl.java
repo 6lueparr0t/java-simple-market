@@ -8,7 +8,6 @@ import com.rgbplace.service.token.TokenService;
 import com.rgbplace.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ public class SignServiceImpl implements SignService {
                 data.put("status", "success");
 
                 Date accessTime = new Date(System.currentTimeMillis() + JwtExpiration.ACCESS_TOKEN_EXPIRATION_TIME.getValue());
-                String accessToken = tokenService.generateToken(user.getUserId(), request.getRequestURI(), accessTime);
+                String accessToken = tokenService.generateToken(user.getUid(), request.getRequestURI(), accessTime);
 
                 userService.updateToken(createdUser, accessToken);
 
@@ -72,35 +71,7 @@ public class SignServiceImpl implements SignService {
             } catch (Exception e) {
                 log.error("Error logging in: {}", e.getMessage());
                 data.put("status", "fail");
-                data.put("msg", "error occured!");
-            }
-
-            return data;
-        } else {
-            throw new RuntimeException("It's not a valid token.");
-        }
-    }
-
-    @Override
-    public Map<String, String> signCheck(String authorizationHeader) throws IOException {
-        Map<String, String> data = new HashMap<>();
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            try {
-                Map<String, Claim> claimMap = tokenService.checkToken(authorizationHeader);
-
-                User user = userService.getUser(claimMap.get("UserId").asString());
-
-                if (user == null) {
-                    data.put("status", "fail");
-                    data.put("msg", "token has not found.");
-                } else {
-                    data.put("status", "success");
-                    data.put("msg", "valid token.");
-                }
-            } catch (Exception e) {
-                log.error("Error logging in: {}", e.getMessage());
-                data.put("status", "fail");
-                data.put("msg", "error occured!");
+                data.put("msg", "error occurred!");
             }
 
             return data;
