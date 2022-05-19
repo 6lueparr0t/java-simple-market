@@ -25,13 +25,13 @@ public class User {
     @Column(length = 200, nullable = false, name = "name")
     private String name;
 
-    @Column(unique = true, length = 100, nullable = false, name = "uid")
+    @Column(unique = true, length = 200, nullable = false, name = "uid")
     private String uid;
 
     @Column(length = 400, nullable = false, name = "pw")
     private String pw;
 
-    @Column(length = 500, nullable = false, name = "email")
+    @Column(length = 400, nullable = false, name = "email")
     private String email;
 
     @Column(length = 400, name = "access")
