@@ -36,15 +36,9 @@ public class ProductController {
 
         final URI uri = linkTo(methodOn(this.getClass()).productList(request, response, page, item)).toUri();
 
-        try {
-            Map<String, Object> data = productService.getProductList(page, item);
+        Map<String, Object> data = productService.getProductList(page, item);
 
-            response.setContentType(APPLICATION_JSON_VALUE);
-            return ResponseEntity.created(uri).body(data);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-
-            throw new IOException(e);
-        }
+        response.setContentType(APPLICATION_JSON_VALUE);
+        return ResponseEntity.created(uri).body(data);
     }
 }

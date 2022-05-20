@@ -1,5 +1,6 @@
 package com.rgbplace.service.product;
 
+import com.rgbplace.common.constant.StatusMessage;
 import com.rgbplace.domain.product.Product;
 import com.rgbplace.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     public Map<String, Object> getProductList(Integer page, Integer item) throws IOException {
         try {
             Map<String, Object> response = new HashMap<>();
-            response.put("status", "success");
+            response.put("status", StatusMessage.SUCCESS.getValue());
 
             Pageable pageable = PageRequest.of(page, item);
             Page<Product> productPage = productRepository.findAll(pageable);

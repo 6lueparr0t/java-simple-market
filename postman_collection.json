@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "1bd32ac5-1257-427d-8a4b-6e1bf1e8619c",
+		"name": "Kmong",
+		"description": "크몽 API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "회원 가입 API",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"임대현\",\n\t\"uid\":\"6lueparr0t\",\n\t\"pw\":\"Test123*\",\n    \"email\":\"6lueparr0t@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/sign/up",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sign",
+						"up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "로그인 API",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"name": "Content-Type",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiVXNlcklEIjoidGVzdCIsImlzcyI6Ii9zaWduL3VwIiwiZXhwIjoxNjMyMTM3NDQ2fQ._iwRcgqxXyrF49KnhHnbSCiMzrWzxqUnxy8ogyzqTj8",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"uid\":\"6lueparr0t\",\n\t\"pw\":\"Test123*\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/sign/in",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sign",
+						"in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "로그아웃 API",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2bHVlcGFycjB0IiwiVXNlcklkIjoiNmx1ZXBhcnIwdCIsImlzcyI6Ii9zaWduL3VwIiwiZXhwIjoxNjUzMTQ1OTU5fQ.Tw4N8_Ox7CkXu24p_UuLMRu91ZeG6CcophH5pSHi3Q8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/sign/out",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sign",
+						"out"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "상품조회 API",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"name": "Content-Type",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiVXNlcklEIjoidGVzdCIsImlzcyI6Ii9zaWduL3VwIiwiZXhwIjoxNjMyMTM3NDQ2fQ._iwRcgqxXyrF49KnhHnbSCiMzrWzxqUnxy8ogyzqTj8",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/product/list?page=0&item=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"product",
+						"list"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "item",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "상품주문 API",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"name": "Content-Type",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2bHVlcGFycjB0IiwiVXNlcklkIjoiNmx1ZXBhcnIwdCIsImlzcyI6Ii9zaWduL2luIiwiZXhwIjoxNjUzMTQ2MDEzfQ.mq65ovB1ZRq9Vn3eufEC3GYxRJJAgcSDhRo0ie9O4o0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"pno\":\"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/order/request",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "회원주문내역조회 API",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"name": "Content-Type",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2bHVlcGFycjB0IiwiVXNlcklkIjoiNmx1ZXBhcnIwdCIsImlzcyI6Ii9zaWduL2luIiwiZXhwIjoxNjUzMTQ2MDEzfQ.mq65ovB1ZRq9Vn3eufEC3GYxRJJAgcSDhRo0ie9O4o0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/order/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

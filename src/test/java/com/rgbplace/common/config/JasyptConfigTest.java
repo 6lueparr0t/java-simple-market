@@ -2,7 +2,7 @@ package com.rgbplace.common.config;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class JasyptConfigTest {
     @Test

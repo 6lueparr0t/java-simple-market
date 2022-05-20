@@ -2,20 +2,18 @@ package com.rgbplace.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rgbplace.Application;
-import com.rgbplace.dto.LoginDto;
 import com.rgbplace.domain.user.User;
 import com.rgbplace.domain.user.UserRepository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.rgbplace.dto.LoginDto;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -31,7 +29,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes= Application.class, webEnvironment = RANDOM_PORT)
 public class SignControllerTest {
     @LocalServerPort
@@ -47,7 +44,7 @@ public class SignControllerTest {
 
     private MockMvc mvc;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
@@ -55,8 +52,8 @@ public class SignControllerTest {
                 .build();
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    public void tearDown() {
         userRepository.deleteAll();
     }
 
@@ -79,7 +76,7 @@ public class SignControllerTest {
 
         //when
         mvc.perform(post(url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(new ObjectMapper().writeValueAsString(user)))
                 .andExpect(status().isCreated());
 
@@ -106,7 +103,7 @@ public class SignControllerTest {
 
         //when
         mvc.perform(post(url1)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(new ObjectMapper().writeValueAsString(user)))
                 .andExpect(status().isCreated());
 
@@ -119,7 +116,7 @@ public class SignControllerTest {
 
         //when
         mvc.perform(post(url2)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(new ObjectMapper().writeValueAsString(loginDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status", equalTo("success")))
@@ -147,7 +144,7 @@ public class SignControllerTest {
 
         //when
         mvc.perform(post(url1)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(new ObjectMapper().writeValueAsString(user)))
                 .andExpect(status().isCreated());
 
@@ -160,7 +157,7 @@ public class SignControllerTest {
 
         //when
         mvc.perform(post(url2)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(new ObjectMapper().writeValueAsString(loginDto)))
                 .andExpect(status().isOk());
 
@@ -170,7 +167,7 @@ public class SignControllerTest {
 
         String url3 = "http://localhost:" + port + "/sign/check";
         mvc.perform(get(url3)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .content(new ObjectMapper().writeValueAsString("")))
                 .andExpect(status().isCreated())
@@ -178,7 +175,7 @@ public class SignControllerTest {
 
         String url4 = "http://localhost:" + port + "/sign/out";
         mvc.perform(get(url4)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .content(new ObjectMapper().writeValueAsString("")))
                 .andExpect(status().isCreated())

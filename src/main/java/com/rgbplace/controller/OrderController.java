@@ -32,16 +32,10 @@ public class OrderController {
 
         final URI uri = linkTo(methodOn(this.getClass()).postOrder(request, response, orderDto)).toUri();
 
-        try {
-            Map<String, Object> data = orderService.postOrderRequest(orderDto, request);
+        Map<String, Object> data = orderService.postOrderRequest(orderDto, request);
 
-            response.setContentType(APPLICATION_JSON_VALUE);
-            return ResponseEntity.created(uri).body(data);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-
-            throw new IOException(e);
-        }
+        response.setContentType(APPLICATION_JSON_VALUE);
+        return ResponseEntity.created(uri).body(data);
     }
 
     @GetMapping("/list")
@@ -53,15 +47,9 @@ public class OrderController {
 
         final URI uri = linkTo(methodOn(this.getClass()).getOrderList(request, response, page, item)).toUri();
 
-        try {
-            Map<String, Object> data = orderService.getOrderList(page, item, request);
+        Map<String, Object> data = orderService.getOrderList(page, item, request);
 
-            response.setContentType(APPLICATION_JSON_VALUE);
-            return ResponseEntity.created(uri).body(data);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-
-            throw new IOException(e);
-        }
+        response.setContentType(APPLICATION_JSON_VALUE);
+        return ResponseEntity.created(uri).body(data);
     }
 }

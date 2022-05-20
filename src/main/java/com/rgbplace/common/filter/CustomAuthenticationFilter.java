@@ -3,6 +3,7 @@ package com.rgbplace.common.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.rgbplace.common.constant.JwtExpiration;
+import com.rgbplace.common.constant.StatusMessage;
 import com.rgbplace.common.util.DateUtils;
 import com.rgbplace.dto.LoginDto;
 import com.rgbplace.service.token.TokenService;
@@ -84,7 +85,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         token.put("expired", DateUtils.getDateString(accessTime));
 
         Map<String, Object> data = new HashMap<>();
-        data.put("status", "success");
+        data.put("status", StatusMessage.SUCCESS.getValue());
         data.put("token", token);
 
         response.setContentType(APPLICATION_JSON_VALUE);

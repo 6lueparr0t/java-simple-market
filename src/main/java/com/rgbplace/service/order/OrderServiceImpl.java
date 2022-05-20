@@ -1,6 +1,8 @@
 package com.rgbplace.service.order;
 
 import com.auth0.jwt.interfaces.Claim;
+import com.rgbplace.common.constant.ExceptionMessage;
+import com.rgbplace.common.constant.StatusMessage;
 import com.rgbplace.domain.order.Order;
 import com.rgbplace.domain.order.OrderRepository;
 import com.rgbplace.domain.order.OrderRequestList;
@@ -38,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Map<String, Object> postOrderRequest(OrderDto orderDto, HttpServletRequest request) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (Optional.ofNullable(authorizationHeader).isPresent() && authorizationHeader.startsWith("Bearer ")) {
             Map<String, Object> data = new HashMap<>();
             try {
                 Map<String, Claim> claimMap = tokenService.checkToken(authorizationHeader);
@@ -47,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 
                 if (Optional.ofNullable(user)
                         .map(User::getAccessToken)
-                        .isPresent()) {
+                        .isPresent() && ("Bearer "+user.getAccessToken()).equals(authorizationHeader)) {
 
                     Product product = productService.getProduct(orderDto.getPno());
 
@@ -56,26 +58,26 @@ public class OrderServiceImpl implements OrderService {
                     order.setProduct(product);
                     orderRepository.save(order);
 
-                    data.put("status", "success");
-                    data.put("msg", "request success");
+                    data.put("status", StatusMessage.SUCCESS.getValue());
+                    data.put("msg", ExceptionMessage.SUCCESS.getValue());
                 } else {
-                    throw new IOException("It's not a valid token.");
+                    throw new IOException(ExceptionMessage.INVALID_TOKEN.getValue());
                 }
             } catch (Exception e) {
                 log.error("Error logging in: {}", e.getMessage());
-                data.put("status", "fail");
-                data.put("msg", "error occurred!");
+                data.put("status", StatusMessage.FAIL.getValue());
+                data.put("msg", ExceptionMessage.ERROR.getValue());
             }
 
             return data;
         } else {
-            throw new IOException("It's not a valid token.");
+            throw new IOException(ExceptionMessage.INVALID_TOKEN.getValue());
         }
     }
     @Override
     public Map<String, Object> getOrderList(Integer page, Integer item, HttpServletRequest request) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (Optional.ofNullable(authorizationHeader).isPresent() && authorizationHeader.startsWith("Bearer ")) {
             Map<String, Object> data = new HashMap<>();
             try {
                 Map<String, Claim> claimMap = tokenService.checkToken(authorizationHeader);
@@ -84,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
 
                 if (Optional.ofNullable(user)
                         .map(User::getAccessToken)
-                        .isPresent()) {
+                        .isPresent() && ("Bearer "+user.getAccessToken()).equals(authorizationHeader)) {
                     Pageable pageable = PageRequest.of(page, item);
                     User findUser = userService.getUser(user.getUid());
                     Page<OrderRequestList> orderPage = orderRepository.findAllByUserId(findUser.getId(), pageable);
@@ -97,20 +99,20 @@ public class OrderServiceImpl implements OrderService {
                     pageInfo.put("totalPages", orderPage.getTotalPages());
                     data.put("page", pageInfo);
 
-                    data.put("status", "success");
-                    data.put("msg", "request success");
+                    data.put("status", StatusMessage.SUCCESS.getValue());
+                    data.put("msg", ExceptionMessage.SUCCESS.getValue());
                 } else {
-                    throw new IOException("It's not a valid token.");
+                    throw new IOException(ExceptionMessage.INVALID_TOKEN.getValue());
                 }
             } catch (Exception e) {
                 log.error("Error logging in: {}", e.getMessage());
-                data.put("status", "fail");
-                data.put("msg", "error occurred!");
+                data.put("status", StatusMessage.FAIL.getValue());
+                data.put("msg", ExceptionMessage.ERROR.getValue());
             }
 
             return data;
         } else {
-            throw new IOException("It's not a valid token.");
+            throw new IOException(ExceptionMessage.INVALID_TOKEN.getValue());
         }
     }
 }

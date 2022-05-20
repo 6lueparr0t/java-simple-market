@@ -16,18 +16,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
-    @Value("${spring.jwt.secret}")
-    public String jwtSecretKey;
-
     private static final String AUTHORIZATION = "Authorization";
     private static final String APPLICATION_JSON_VALUE = "application/json";
     private final TokenService tokenService;
@@ -42,7 +36,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
-            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            if (Optional.ofNullable(authorizationHeader).isPresent() && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     String username = tokenService.getUserIdInToken(authorizationHeader);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

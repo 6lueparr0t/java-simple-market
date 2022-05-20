@@ -15,7 +15,6 @@ import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,36 +33,23 @@ public class SignController {
 
         final URI uri = linkTo(methodOn(this.getClass()).signUpUser(request, response, user)).toUri();
 
-        try {
-            Map<String, Object> data = signService.signUp(user, request);
+        Map<String, Object> data = signService.signUp(user, request);
 
-            response.setContentType(APPLICATION_JSON_VALUE);
-            return ResponseEntity.created(uri).body(data);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-
-            throw new IOException(e);
-        }
+        response.setContentType(APPLICATION_JSON_VALUE);
+        return ResponseEntity.created(uri).body(data);
     }
 
     @GetMapping("/out")
     public ResponseEntity<Map<String, String>> signOutUser(HttpServletRequest request,
-                                                          HttpServletResponse response) throws IOException {
+                                                           HttpServletResponse response) throws IOException {
 
         final URI uri = linkTo(methodOn(this.getClass()).signOutUser(request, response)).toUri();
 
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        try {
-            Map<String, String> data = signService.signOut(authorizationHeader);
 
-            response.setContentType(APPLICATION_JSON_VALUE);
-            return ResponseEntity.created(uri).body(data);
-        } catch (Exception e) {
-            response.setHeader("error", e.getMessage());
-            response.setStatus(FORBIDDEN.value());
+        Map<String, String> data = signService.signOut(authorizationHeader);
 
-            throw new IOException(e);
-        }
-
+        response.setContentType(APPLICATION_JSON_VALUE);
+        return ResponseEntity.created(uri).body(data);
     }
 }

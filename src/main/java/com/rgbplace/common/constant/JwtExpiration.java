@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 @Getter
 public enum JwtExpiration {
-
     // JWT 만료 시간 / 1일
     ACCESS_TOKEN_EXPIRATION_TIME("access_token_expiration_time", 1000L * 60 * 60 * 24),
     // Refresh 토큰 만료 시간 / 7일
@@ -18,12 +17,5 @@ public enum JwtExpiration {
     JwtExpiration(String name, Long value) {
         this.name = name;
         this.value = value;
-    }
-
-    public JwtExpiration getJwtExpiration(String name) {
-        return Arrays.stream(JwtExpiration.values())
-                .filter(e -> e.name.equals(name))
-                .findAny()
-                .orElse(null);
     }
 }

@@ -1,5 +1,6 @@
 package com.rgbplace.service.user;
 
+import com.rgbplace.common.util.DateUtils;
 import com.rgbplace.domain.user.User;
 import com.rgbplace.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public User updateToken(User user, String accessToken) {
         log.info("Update Token user {}", user.getUid());
         user.setAccessToken(accessToken);
-        user.setAccessDate(LocalDateTime.now());
+        user.setAccessDate(DateUtils.now());
         return userRepository.save(user);
     }
 
