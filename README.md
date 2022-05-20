@@ -9,7 +9,7 @@
 
 ## Run
 
-- Dockerfile 을 사용해 실행한다. 
+- Dockerfile 을 사용해 실행한다.
 ```shell
 # docker build
 # -t : Tag
@@ -67,3 +67,8 @@ $ docker run -d -p 8080:8080 --name java-board 6lueparr0t/java-board:latest
 | **price** | Long         | 가격           |
 | **cdtm**  | DateTime     | 생성 날짜        |
 | **udtm**  | DateTime     | 수정 날짜        |
+
+## API 테스트
+
+- Postman 을 실행해서 ./postman_collection.json 을 불러와서 실행한다.
+- [Postman Documentation 링크](https://documenter.getpostman.com/view/1740358/UyxohPmg)
