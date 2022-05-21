@@ -1,8 +1,8 @@
 {
 	"info": {
 		"_postman_id": "1bd32ac5-1257-427d-8a4b-6e1bf1e8619c",
-		"name": "Kmong",
-		"description": "크몽 API",
+		"name": "Simple Market",
+		"description": "Simple Market API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [

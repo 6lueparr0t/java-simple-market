@@ -1,4 +1,4 @@
-# Java Board
+# Java Simple Market
 
 ## Feature
 
@@ -13,13 +13,13 @@
 ```shell
 # docker build
 # -t : Tag
-$ docker build -t 6lueparr0t/java-board .
+$ docker build -t 6lueparr0t/java-simple-market .
 
 # docker run
 # -d : background 실행
 # -p : 포트 포워딩
 # --name : container 이름
-$ docker run -d -p 8080:8080 --name java-board 6lueparr0t/java-board:latest
+$ docker run -d -p 8080:8080 --name java-simple-market 6lueparr0t/java-simple-market:latest
 ```
 
 ## Tech Stack
