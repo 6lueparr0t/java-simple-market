@@ -71,4 +71,3 @@ $ docker run -d -p 8080:8080 --name java-simple-market 6lueparr0t/java-simple-ma
 ## API 테스트
 
 - Postman 을 실행해서 ./postman_collection.json 을 불러와서 실행한다.
-- [Postman Documentation 링크](https://documenter.getpostman.com/view/1740358/UyxohPmg)
